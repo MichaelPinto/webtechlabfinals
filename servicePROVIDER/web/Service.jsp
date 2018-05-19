@@ -48,20 +48,21 @@
                 <div id="addPane">
                     <form action="Quiz" method="POST" enctype="multipart/form-data">
                         Enter costume title:<input type="text" name="costumetitle" value="Add costume title here" /><br>
-                        Enter costume detail:<input type="text" name="costumedetails" value="Add details here" /><br>
                         Enter costume description:<textarea name="costumedescription" rows="5" cols="20">
-Add brief description here
+                        Add brief description here
                         </textarea><br>
                         Enter costume quantity:<input type="text" name="costumeqty" value="Put integer here" /><br>
+                        Enter price here:<input type="text" name="costumeprice" value="value in PHP" />
                         Enter costume tag:<input type="text" name="costumetag" value="i.e. Halloween or Anime" /><br>
                         Costume category:<select name="costumecat" size="1">
-                            <option>Bonnet</option>
+                            <option>Head Gears</option>
+                            <option>Upper Gears</option>
+                            <option>Lower Gears</option>
+                            <option>Shirts</option>
                             <option>Pants</option>
-                            <option>Jacket</option>
-                            <option>Socks</option>
-                            <option>Wigs</option>
                         </select>
-                        <input type="file" name="photo">
+                        Enter costume type:<input type="text" name="costumetype" value="i.e. Wedding, Anime, Halloween" />
+                        <input type="file" name="photo"><br>
                         <input type="submit" value="submit" name="submitbutton" />
                     </form>
                 </div>
@@ -82,54 +83,30 @@ Add brief description here
 
                     <div id="showAllPane">
                         <%
-                            String toQuery = "select prod_id,prodname,prodcat from weblabg3.products";
+                            String toQuery = "select product_id,product_name,product_type,product_category,"
+                                    + "product_tag, product_onRent from costumes.products";
                             ResultSet result = stmt.executeQuery(toQuery);
                             
                             while (result.next()) {
-                                
+                            
                         %>
                         <div class="resultContainer">
-                            <td> <% out.print(Integer.parseInt(result.getString("prod_id")));%> </td>
-                            <td> <% out.print(result.getString("prodname")); %></td><br>
-                            <td> <% out.print(result.getString("prodcat")); %></td>
-                            <img>
+                            Product name:<td> <% out.print(result.getString("product_name")); %></td><br>
+                            Product type:<td> <% out.print(result.getString("product_type")); %></td><br>
+                            Product category:<td> <% out.print(result.getString("product_category")); %></td><br>
+                            Product tag:<td> <% out.print(result.getString("product_tag")); %></td><br>
+                            Product rented:<td> <% out.print(result.getString("product_onRent")); %></td>
+                            <img src="<% %>">
                         </div>
                                
                             <%
                                 }
                         %>
                     </div>
-
-                    <div id="showByDate">
-                    </div>
-
-                    <div id="showByCategory">
-                    </div>
-
-                    <div id="showByTag">
-                    </div>
-
-                    <div id="showByQuantity">
-                    </div>
-
-                    <div id="showByName">
-                    </div>
-
-                    <div id="showByPrice">
-                    </div>
                 </div>
             </div>
         </div>
-        <div id="helperPane">
-            <%
-
-            %>
-            <img src="WEB-INF/">
-
-            <%
-            %>
-
-        </div>
+    
         <div id="footPane">
         </div>
     </body>

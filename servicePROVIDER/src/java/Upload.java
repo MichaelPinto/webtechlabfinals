@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -49,36 +50,53 @@ public class Upload extends HttpServlet {
             Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             
             String title = request.getParameter("costumetitle");
-            String details = request.getParameter("costumedetails");
             String description = request.getParameter("costumedescription");
             String category = request.getParameter("costumecat");
             String tag = request.getParameter("costumetag");
+            int price = Integer.parseInt(request.getParameter("costumeprice"));
             int qty = Integer.parseInt(request.getParameter("costumeqty"));
             Part filePart = request.getPart("photo");
+            String type = request.getParameter("costumetype");
             InputStream stream = filePart.getInputStream();
             String status = "pending";
-            int id = 4;
-            double price = 200.69;
-            int i = 1;
+            HttpSession session = request.getSession();
+            int id = Integer.parseInt(session.getAttribute("username").toString());
             
-            String toQuery = "Insert into weblabg3.products values (?,?,?,?,?,?,?,?,?,?,?)";
+            int highest = 0;
+            String azrl = "select product_id from costumes.products";
+            ResultSet result = stmt.executeQuery(azrl);
+            while(result.next()){
+                int current = Integer.parseInt(result.getString("product_id"));
+                
+                if(current>highest){
+                    highest = current;
+                }
+                
+                if(result.getString("product_id")==null){
+                    highest = 1;
+                }
+            }
+            
+            
+            String toQuery = "Insert into costumes.products values (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement update = con.prepareStatement(toQuery);
-            update.setInt(1,id);
-            update.setInt(2,qty);
-            update.setDouble(3,price);
-            update.setString(4,title);
-            update.setString(5, details);
+            update.setInt(1, highest);
+            update.setInt(2, id);
+            update.setInt(3, qty);
+            update.setInt(4, price);
+            update.setString(5,title);
             update.setString(6,description);
-            update.setString(7,category);
-            update.setString(8, tag);
-            update.setString(9,status);
-            update.setBlob(10, stream);
-            update.setInt(11,i);
-            update.executeUpdate();
+            update.setString(7,type);
+            update.setString(8,category);
+            update.setString(9,tag);
+            update.setString(10,"pending");
+            update.setString(11,"false");
+            update.setString(12,"true");
+            update.executeQuery();
             
-            int result = update.executeUpdate();
             
-            response.sendRedirect("Service.jsp");
+            
+            response.sendRedirect("sucess.jsp");
             
             
            

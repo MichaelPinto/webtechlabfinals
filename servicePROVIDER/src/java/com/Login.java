@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -50,6 +51,9 @@ public class Login extends HttpServlet {
             Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String toExecute = "select userID,username,password from users.user";
             ResultSet rs = stmt.executeQuery(toExecute);
+            
+            Random random = new Random();
+        
             
             String uname = request.getParameter("username");
             String pass = request.getParameter("password");

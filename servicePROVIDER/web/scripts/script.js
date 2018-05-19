@@ -21,3 +21,12 @@ function showShowPane(){
     document.getElementById("editPane").style.display = "none";
     document.getElementById("showPane").style.display = "block";
 }
+
+function showByDate(){
+    document.getElementById("addPane").style.display = "none";
+    document.getElementById("editPane").style.display = "none";
+    document.getElementById("showPane").style.display = "block";
+    document.getElementById("addPane").style.display = "none";
+    document.getElementById("editPane").style.display = "none";
+    document.getElementById("showPane").style.display = "block";
+}
